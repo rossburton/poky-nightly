@@ -4,8 +4,7 @@
 # manipulates the RTC wake alarm and asks upower to suspend.
 
 # First, reset the alarm
-DATE=$(date '+%s' -d '3:55am tomorrow')
-echo $DATE > /sys/class/rtc/rtc0/wakealarm
+/home/ross/Yocto/poky-nightly/set-alarm
 
 # Run the actual script as ross
 su --login --command /home/ross/Yocto/poky-nightly/run-nightly ross

@@ -1,0 +1,50 @@
+#! /bin/bash
+
+# Script to update a Poky checkout, checkout origin/master, fetch all
+# sources, and then build the Sato image.  Fetches into an existing clone
+# but then works in a scratch clone to ensure a pristine origin/master
+# build.
+
+set -e
+
+# Where the script is (TODO: get this from $0?)
+NIGHTLY=$HOME/Yocto/poky-nightly
+
+# Where the existing Poky checkout is
+POKY=$HOME/Yocto/poky
+
+# Where to put the scratch clone
+WORKING=/data/
+
+
+
+# TODO getopts -f (no fetch) -s (no sources) -b (no build), or something
+
+# Fetch latest changes
+cd $POKY
+echo Fetching latest commits...
+git fetch
+
+# Create the working repository
+REPO=$(mktemp --tmpdir=$WORKING --directory nightly-build-XXX)
+echo Using $REPO as working repository
+
+# Checkout origin/master
+git clone $POKY $REPO
+cd $REPO
+git checkout -b nightly origin/master
+
+# Initialise Poky
+mkdir --parents $REPO/build/conf/
+cp $NIGHTLY/local.conf $REPO/build/conf/
+. oe-init-build-env
+
+# Do a universe fetch to ensure we have all sources
+echo Fetching all sources...
+bitbake -u knotty2 -c fetchall universe || /bin/true
+
+# echo Building core-image-sato...
+bitbake -u knotty2 core-image-sato || /bin/true
+
+# Remove the working repository
+rm -rf $REPO

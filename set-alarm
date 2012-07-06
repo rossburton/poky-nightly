@@ -1,4 +1,4 @@
 #! /bin/sh
 
-DATE=$(date '+%s' -d '3:55am tomorrow')
+DATE=$(date '+%s' -d '4:55am tomorrow')
 echo $DATE > /sys/class/rtc/rtc0/wakealarm

@@ -9,5 +9,6 @@
 # Run the actual script as ross
 su --login --command /home/ross/Yocto/poky-nightly/run-nightly ross
 
-# Now, go back to sleep
-/home/ross/bin/upower-suspend
+# Now, go back to sleep.  Wait a minute and disown the subshell so that the
+# cron job finishes and mail is sent before we go to sleep.
+(sleep 1m ; /home/ross/bin/upower-suspend ) & disown

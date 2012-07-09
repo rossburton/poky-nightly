@@ -84,7 +84,7 @@ fi
 # Build core-image-sato
 if $DO_BUILD; then
 	echo Building core-image-sato...
-	bitbake -u knotty2 core-image-sato || /bin/true
+	bitbake -u knotty2 --continue core-image-sato || /bin/true
 fi
 
 

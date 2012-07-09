@@ -17,14 +17,47 @@ POKY=$HOME/Yocto/poky
 WORKING=/data/
 
 
+# If no arguments do everything, otherwise do what we're asked
+if [ $# -eq 0 ]; then
+	DO_FETCH=true
+	DO_SOURCES=true
+	DO_BUILD=true
+else
+	DO_FETCH=false
+	DO_SOURCES=false
+	DO_BUILD=false
+fi
 
-# TODO getopts -f (no fetch) -s (no sources) -b (no build), or something
+while getopts fsbh o
+do
+	case "$o" in
+		# Fetch
+		f) DO_FETCH=true;;
+		# Sources
+		s) DO_SOURCES=true;;
+		# Build
+		b) DO_BUILD=true;;
+		h) echo >&2 "Usage: $0 -f (fetch) -s (sources) -b (build) -h (help)"
+		   echo >&2 "No arguments means everything"
+		   exit 1;;
+	esac
+done
+
+# Need to unset the arguments so that oe-init-build-env doesn't think we
+# want to use -b as the build dir.
+while shift; do true; done
+
+
+# Let's do it!
+
+cd $POKY
 
 # Fetch latest changes. Assumes that a git fetch will work without any SSH
 # passphrases, so a insteadOf/pushInsteadOf alias is probably a good idea.
-cd $POKY
-echo Fetching latest commits...
-git fetch
+if $DO_FETCH; then
+	echo Fetching latest commits...
+	git fetch
+fi
 
 # Create the working repository
 REPO=$(mktemp --tmpdir=$WORKING --directory nightly-build-XXX)
@@ -40,12 +73,20 @@ mkdir --parents $REPO/build/conf/
 cp $NIGHTLY/local.conf $REPO/build/conf/
 . oe-init-build-env
 
-# Do a universe fetch to ensure we have all sources
-echo Fetching all sources...
-bitbake -u knotty2 -c fetchall universe || /bin/true
 
-echo Building core-image-sato...
-bitbake -u knotty2 core-image-sato || /bin/true
+# Do a universe fetch to ensure we have all sources
+if $DO_SOURCES; then
+	echo Fetching all sources...
+	bitbake -u knotty2 -c fetchall universe || /bin/true
+fi
+
+
+# Build core-image-sato
+if $DO_BUILD; then
+	echo Building core-image-sato...
+	bitbake -u knotty2 core-image-sato || /bin/true
+fi
+
 
 # Remove the working repository
 rm -rf $REPO

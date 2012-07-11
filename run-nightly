@@ -63,10 +63,13 @@ fi
 REPO=$(mktemp --tmpdir=$WORKING --directory nightly-build-XXX)
 echo Using $REPO as working repository
 
-# Checkout origin/master
-git clone $POKY $REPO
+# Checkout origin/master.  Assume that git-new-workdir is on $PATH. 
+# new-workdir demands that the directory doesn't exist so delete it and hope
+# we won't race here.
+rm -r $REPO
+git new-workdir $POKY $REPO
 cd $REPO
-git checkout -b nightly origin/master
+git checkout origin/master
 
 # Initialise Poky
 mkdir --parents $REPO/build/conf/

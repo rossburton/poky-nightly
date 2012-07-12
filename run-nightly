@@ -80,7 +80,7 @@ cp $NIGHTLY/local.conf $REPO/build/conf/
 # Do a universe fetch to ensure we have all sources
 if $DO_SOURCES; then
 	echo Fetching all sources...
-	bitbake -u knotty2 -c fetchall universe || /bin/true
+	bitbake -c fetchall universe | grep -v "NOTE: " || /bin/true
 fi
 
 

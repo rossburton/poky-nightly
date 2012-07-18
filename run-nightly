@@ -69,7 +69,7 @@ echo Using $REPO as working repository
 rm -r $REPO
 git new-workdir $POKY $REPO
 cd $REPO
-git checkout origin/master
+git checkout --quiet origin/master
 
 # Initialise Poky
 mkdir --parents $REPO/build/conf/

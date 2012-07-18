@@ -74,7 +74,7 @@ git checkout origin/master
 # Initialise Poky
 mkdir --parents $REPO/build/conf/
 cp $NIGHTLY/local.conf $REPO/build/conf/
-. oe-init-build-env
+. oe-init-build-env >/dev/null
 
 
 # Do a universe fetch to ensure we have all sources

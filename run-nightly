@@ -86,8 +86,11 @@ fi
 
 # Build core-image-sato
 if $DO_BUILD; then
-	echo Building core-image-sato...
-	bitbake -u knotty2 --continue core-image-sato || /bin/true
+	echo -e \\n\\nBuilding core-image-sato for qemux86...\\n
+	MACHINE=qemux86 bitbake -u knotty2 --continue core-image-sato || /bin/true
+
+	echo -e \\n\\nBuilding core-image-sato for qemuppc...\\n
+	MACHINE=qemuppc bitbake -u knotty2 --continue core-image-sato || /bin/true
 fi
 
 

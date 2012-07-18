@@ -55,7 +55,7 @@ cd $POKY
 # Fetch latest changes. Assumes that a git fetch will work without any SSH
 # passphrases, so a insteadOf/pushInsteadOf alias is probably a good idea.
 if $DO_FETCH; then
-	echo Fetching latest commits...
+	echo -e \\n\\nFetching latest commits...\\n
 	git fetch
 fi
 
@@ -79,7 +79,7 @@ cp $NIGHTLY/local.conf $REPO/build/conf/
 
 # Do a universe fetch to ensure we have all sources
 if $DO_SOURCES; then
-	echo Fetching all sources...
+	echo -e \\n\\nFetching all sources...\\n
 	bitbake -c fetchall universe | grep -v "NOTE: " || /bin/true
 fi
 

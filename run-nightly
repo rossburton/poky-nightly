@@ -89,8 +89,11 @@ if $DO_BUILD; then
 	echo -e \\n\\nBuilding core-image-sato for qemux86...\\n
 	MACHINE=qemux86 bitbake -u knotty2 --continue core-image-sato || /bin/true
 
-	echo -e \\n\\nBuilding core-image-sato for qemuppc...\\n
-	MACHINE=qemuppc bitbake -u knotty2 --continue core-image-sato || /bin/true
+	echo -e \\n\\nBuilding core-image-sato for atom-pc...\\n
+	MACHINE=atom-pc bitbake -u knotty2 --continue core-image-sato || /bin/true
+
+	#echo -e \\n\\nBuilding core-image-sato for qemuppc...\\n
+	#MACHINE=qemuppc bitbake -u knotty2 --continue core-image-sato || /bin/true
 fi
 
 

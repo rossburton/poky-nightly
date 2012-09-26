@@ -56,7 +56,7 @@ cd $POKY
 # passphrases, so a insteadOf/pushInsteadOf alias is probably a good idea.
 if $DO_FETCH; then
 	echo -e \\n\\nFetching latest commits...\\n
-	git fetch
+	git fetch origin -v
 fi
 
 # Create the working repository
@@ -87,13 +87,13 @@ fi
 # Build core-image-sato
 if $DO_BUILD; then
 	echo -e \\n\\nBuilding core-image-sato for qemux86...\\n
-	MACHINE=qemux86 bitbake -u knotty2 --continue core-image-sato || /bin/true
+	MACHINE=qemux86 bitbake --continue core-image-sato || /bin/true
 
 	echo -e \\n\\nBuilding core-image-sato for atom-pc...\\n
-	MACHINE=atom-pc bitbake -u knotty2 --continue core-image-sato || /bin/true
+	MACHINE=atom-pc bitbake --continue core-image-sato || /bin/true
 
 	#echo -e \\n\\nBuilding core-image-sato for qemuppc...\\n
-	#MACHINE=qemuppc bitbake -u knotty2 --continue core-image-sato || /bin/true
+	#MACHINE=qemuppc bitbake --continue core-image-sato || /bin/true
 fi
 
 

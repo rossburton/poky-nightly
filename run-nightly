@@ -83,7 +83,7 @@ if $DO_SOURCES; then
 	bitbake -c fetchall universe | grep -v "NOTE: " || /bin/true
 fi
 
-TARGETS="core-image-sato"
+TARGETS="packagegroup-core-x11-sato"
 
 # Build the targets
 if $DO_BUILD; then

@@ -83,18 +83,16 @@ if $DO_SOURCES; then
 	bitbake -c fetchall universe | grep -v "NOTE: " || /bin/true
 fi
 
+MACHINES="qemux86 atom-pc"
 TARGETS="packagegroup-core-x11-sato"
 
 # Build the targets
 if $DO_BUILD; then
-	echo -e \\n\\nBuilding $TARGETS for qemux86...\\n
-	MACHINE=qemux86 bitbake --continue $TARGETS || /bin/true
-
-	echo -e \\n\\nBuilding $TARGETS for atom-pc...\\n
-	MACHINE=atom-pc bitbake --continue $TARGETS || /bin/true
-
-	#echo -e \\n\\nBuilding $TARGETS for qemuppc...\\n
-	#MACHINE=qemuppc bitbake --continue $TARGETS || /bin/true
+	for MACHINE in $MACHINES; do
+		export MACHINE
+		echo -e \\n\\nBuilding $TARGETS for $MACHINE...\\n
+		bitbake --continue $TARGETS || /bin/true
+	done
 fi
 
 

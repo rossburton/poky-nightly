@@ -83,17 +83,18 @@ if $DO_SOURCES; then
 	bitbake -c fetchall universe | grep -v "NOTE: " || /bin/true
 fi
 
+TARGETS="core-image-sato"
 
-# Build core-image-sato
+# Build the targets
 if $DO_BUILD; then
-	echo -e \\n\\nBuilding core-image-sato for qemux86...\\n
-	MACHINE=qemux86 bitbake --continue core-image-sato || /bin/true
+	echo -e \\n\\nBuilding $TARGETS for qemux86...\\n
+	MACHINE=qemux86 bitbake --continue $TARGETS || /bin/true
 
-	echo -e \\n\\nBuilding core-image-sato for atom-pc...\\n
-	MACHINE=atom-pc bitbake --continue core-image-sato || /bin/true
+	echo -e \\n\\nBuilding $TARGETS for atom-pc...\\n
+	MACHINE=atom-pc bitbake --continue $TARGETS || /bin/true
 
-	#echo -e \\n\\nBuilding core-image-sato for qemuppc...\\n
-	#MACHINE=qemuppc bitbake --continue core-image-sato || /bin/true
+	#echo -e \\n\\nBuilding $TARGETS for qemuppc...\\n
+	#MACHINE=qemuppc bitbake --continue $TARGETS || /bin/true
 fi
 
 

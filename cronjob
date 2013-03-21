@@ -4,7 +4,7 @@
 # manipulates the RTC wake alarm and asks upower to suspend.
 
 # First, reset the alarm
-/home/ross/Yocto/poky-nightly/set-alarm
+#/home/ross/Yocto/poky-nightly/set-alarm
 
 # Run the actual script as ross
 su --login --command /home/ross/Yocto/poky-nightly/run-nightly ross

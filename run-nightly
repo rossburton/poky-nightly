@@ -22,13 +22,15 @@ if [ $# -eq 0 ]; then
 	DO_FETCH=true
 	DO_SOURCES=true
 	DO_BUILD=true
+	DO_SHELL=false
 else
 	DO_FETCH=false
 	DO_SOURCES=false
 	DO_BUILD=false
+	DO_SHELL=false
 fi
 
-while getopts fsbh o
+while getopts fsbhd o
 do
 	case "$o" in
 		# Fetch
@@ -37,7 +39,14 @@ do
 		s) DO_SOURCES=true;;
 		# Build
 		b) DO_BUILD=true;;
-		h) echo >&2 "Usage: $0 -f (fetch) -s (sources) -b (build) -h (help)"
+		# Debug shell
+		d)
+		   DO_FETCH=false
+		   DO_SOURCES=false
+		   DO_BUILD=false
+		   DO_SHELL=true
+		   ;;
+		h) echo >&2 "Usage: $0 -f (fetch) -s (sources) -b (build) -d (debug shell) -h (help)"
 		   echo >&2 "No arguments means everything"
 		   exit 1;;
 	esac
@@ -76,6 +85,11 @@ mkdir --parents $REPO/build/conf/
 cp $NIGHTLY/local.conf $REPO/build/conf/
 . oe-init-build-env >/dev/null
 
+# Run an debug shell
+if $DO_SHELL; then
+    echo Entering a debug shell...
+    bash -i
+fi
 
 # Do a universe fetch to ensure we have all sources
 if $DO_SOURCES; then

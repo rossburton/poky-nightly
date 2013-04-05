@@ -98,7 +98,7 @@ if $DO_SOURCES; then
 fi
 
 MACHINES="atom-pc qemux86 qemuarm"
-TARGETS="packagegroup-core-x11-sato"
+TARGETS="core-image-sato"
 
 # Build the targets
 if $DO_BUILD; then

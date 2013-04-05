@@ -88,6 +88,7 @@ cp $NIGHTLY/local.conf $REPO/build/conf/
 # Run an debug shell
 if $DO_SHELL; then
     echo Entering a debug shell...
+    export PS1_PREFIX="(nightly) "
     bash -i
 fi
 

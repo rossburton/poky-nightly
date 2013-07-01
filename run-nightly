@@ -56,33 +56,37 @@ done
 # want to use -b as the build dir.
 while shift; do true; done
 
+WORKDIR=$(mktemp --tmpdir=$WORKING --directory nightly-build-XXX)
+echo Using $WORKDIR as working directory
 
-# Let's do it!
+# Fetch origin and create a new clone based on origin/master.
+checkout_repo() {
+	SOURCE=$1
+        NAME=$(basename $1)
+	cd $SOURCE
 
-cd $VCSROOT/poky
+	# Fetch latest changes. Assumes that a git fetch will work without any
+	# SSH passphrases, so a insteadOf/pushInsteadOf alias is probably a good
+	# idea.
+	if $DO_FETCH; then
+		echo -e \\n\\nFetching latest commits in $NAME...\\n
+		git fetch origin -v
+	fi
 
-# Fetch latest changes. Assumes that a git fetch will work without any SSH
-# passphrases, so a insteadOf/pushInsteadOf alias is probably a good idea.
-if $DO_FETCH; then
-	echo -e \\n\\nFetching latest commits...\\n
-	git fetch origin -v
-fi
+	# Checkout origin/master.  Assume that git-new-workdir is on $PATH.
+        REPO=$WORKDIR/$NAME
+	git new-workdir $SOURCE $REPO
+	cd $REPO
+	git checkout --quiet origin/master
+}
 
-# Create the working repository
-REPO=$(mktemp --tmpdir=$WORKING --directory nightly-build-XXX)
-echo Using $REPO as working repository
 
-# Checkout origin/master.  Assume that git-new-workdir is on $PATH. 
-# new-workdir demands that the directory doesn't exist so delete it and hope
-# we won't race here.
-rm -r $REPO
-git new-workdir $VCSROOT/poky $REPO
-cd $REPO
-git checkout --quiet origin/master
+checkout_repo $VCSROOT/poky
 
 # Initialise Poky
-mkdir --parents $REPO/build/conf/
-cp $NIGHTLY/local.conf $REPO/build/conf/
+cd $WORKDIR/poky
+mkdir --parents $WORKDIR/poky/build/conf/
+cp $NIGHTLY/local.conf $WORKDIR/poky/build/conf/
 . oe-init-build-env >/dev/null
 
 # Run an debug shell
@@ -111,4 +115,4 @@ fi
 
 
 # Remove the working repository
-rm -rf $REPO
+rm -rf $WORKDIR

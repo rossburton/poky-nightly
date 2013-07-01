@@ -1,0 +1,9 @@
+LCONF_VERSION = "6"
+
+BBPATH = "${TOPDIR}"
+BBFILES ?= ""
+
+BBLAYERS ?= " \
+  @WORKDIR@/poky/meta \
+  @WORKDIR@/poky/meta-yocto \
+  @WORKDIR@/poky/meta-yocto-bsp"

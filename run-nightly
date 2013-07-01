@@ -87,6 +87,7 @@ checkout_repo $VCSROOT/poky
 cd $WORKDIR/poky
 mkdir --parents $WORKDIR/poky/build/conf/
 cp $NIGHTLY/local.conf $WORKDIR/poky/build/conf/
+sed -e "s|@WORKDIR@|${WORKDIR}|g" <$NIGHTLY/bblayers.conf.in >$WORKDIR/poky/build/conf/bblayers.conf
 . oe-init-build-env >/dev/null
 
 # Run an debug shell

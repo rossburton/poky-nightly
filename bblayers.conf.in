@@ -6,4 +6,6 @@ BBFILES ?= ""
 BBLAYERS ?= " \
   @WORKDIR@/poky/meta \
   @WORKDIR@/poky/meta-yocto \
-  @WORKDIR@/poky/meta-yocto-bsp"
+  @WORKDIR@/poky/meta-yocto-bsp \
+  @WORKDIR@/meta-intel \
+  @WORKDIR@/meta-intel/meta-nuc"

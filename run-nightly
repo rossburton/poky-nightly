@@ -82,6 +82,7 @@ checkout_repo() {
 
 
 checkout_repo $VCSROOT/poky
+checkout_repo $VCSROOT/meta-intel
 
 # Initialise Poky
 cd $WORKDIR/poky
@@ -105,7 +106,7 @@ fi
 
 # Build the targets
 if $DO_BUILD; then
-	MACHINES="atom-pc qemux86 qemuarm"
+	MACHINES="nuc qemux86 qemuarm"
 	TARGETS="core-image-sato"
 	for MACHINE in $MACHINES; do
 		export MACHINE

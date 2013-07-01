@@ -10,8 +10,8 @@ set -e
 # Where the script is (TODO: get this from $0?)
 NIGHTLY=$HOME/Yocto/poky-nightly
 
-# Where the existing Poky checkout is
-POKY=$HOME/Yocto/poky
+# Where the existing checkouts are
+VCSROOT=$HOME/Yocto
 
 # Where to put the scratch clone
 WORKING=/data/
@@ -59,7 +59,7 @@ while shift; do true; done
 
 # Let's do it!
 
-cd $POKY
+cd $VCSROOT/poky
 
 # Fetch latest changes. Assumes that a git fetch will work without any SSH
 # passphrases, so a insteadOf/pushInsteadOf alias is probably a good idea.
@@ -76,7 +76,7 @@ echo Using $REPO as working repository
 # new-workdir demands that the directory doesn't exist so delete it and hope
 # we won't race here.
 rm -r $REPO
-git new-workdir $POKY $REPO
+git new-workdir $VCSROOT/poky $REPO
 cd $REPO
 git checkout --quiet origin/master
 

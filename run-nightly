@@ -70,7 +70,7 @@ checkout_repo() {
 	# idea.
 	if $DO_FETCH; then
 		echo -e \\n\\nFetching latest commits in $NAME...\\n
-		git fetch origin -v
+		git fetch --all -v
 	fi
 
 	# Checkout origin/master.  Assume that git-new-workdir is on $PATH.

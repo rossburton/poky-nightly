@@ -106,7 +106,7 @@ fi
 
 # Build the targets
 if $DO_BUILD; then
-	MACHINES="nuc qemux86 qemuarm"
+	MACHINES="nuc atom-pc qemux86 qemuarm"
 	TARGETS="core-image-sato"
 	for MACHINE in $MACHINES; do
 		export MACHINE

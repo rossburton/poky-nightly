@@ -108,15 +108,19 @@ if $DO_SOURCES; then
 	bitbake -c fetchall universe | grep -v "NOTE: " || /bin/true
 fi
 
+do_builds() {
+    MACHINES="nuc atom-pc qemux86 qemuarm"
+    TARGETS="core-image-sato"
+    for MACHINE in $MACHINES; do
+	export MACHINE
+	echo -e \\n\\nBuilding $TARGETS for $MACHINE...\\n
+	bitbake --continue $TARGETS || /bin/true
+    done
+}
+
 # Build the targets
 if $DO_BUILD; then
-	MACHINES="nuc atom-pc qemux86 qemuarm"
-	TARGETS="core-image-sato"
-	for MACHINE in $MACHINES; do
-		export MACHINE
-		echo -e \\n\\nBuilding $TARGETS for $MACHINE...\\n
-		bitbake --continue $TARGETS || /bin/true
-	done
+    do_builds
 fi
 
 

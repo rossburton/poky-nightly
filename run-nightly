@@ -19,37 +19,41 @@ WORKING=/data/
 
 # If no arguments do everything, otherwise do what we're asked
 if [ $# -eq 0 ]; then
-	DO_FETCH=true
-	DO_SOURCES=true
-	DO_BUILD=true
-	DO_SHELL=false
+    DO_FETCH=true
+    DO_SOURCES=true
+    DO_BUILD=true
+    DO_SHELL=false
 else
-	DO_FETCH=false
-	DO_SOURCES=false
-	DO_BUILD=false
-	DO_SHELL=false
+    DO_FETCH=false
+    DO_SOURCES=false
+    DO_BUILD=false
+    DO_SHELL=false
 fi
 
 while getopts fsbhd o
 do
-	case "$o" in
-		# Fetch
-		f) DO_FETCH=true;;
-		# Sources
-		s) DO_SOURCES=true;;
-		# Build
-		b) DO_BUILD=true;;
-		# Debug shell
-		d)
-		   DO_FETCH=false
-		   DO_SOURCES=false
-		   DO_BUILD=false
-		   DO_SHELL=true
-		   ;;
-		h) echo >&2 "Usage: $0 -f (fetch) -s (sources) -b (build) -d (debug shell) -h (help)"
-		   echo >&2 "No arguments means everything"
-		   exit 1;;
-	esac
+    case "$o" in
+	# Fetch
+	f)
+            DO_FETCH=true;;
+	# Sources
+	s)
+            DO_SOURCES=true;;
+	# Build
+	b)
+            DO_BUILD=true;;
+	# Debug shell
+	d)
+	    DO_FETCH=false
+	    DO_SOURCES=false
+	    DO_BUILD=false
+	    DO_SHELL=true
+	    ;;
+	h)
+            echo >&2 "Usage: $0 -f (fetch) -s (sources) -b (build) -d (debug shell) -h (help)"
+	    echo >&2 "No arguments means everything"
+	    exit 1;;
+    esac
 done
 
 # Need to unset the arguments so that oe-init-build-env doesn't think we
@@ -61,23 +65,23 @@ echo Using $WORKDIR as working directory
 
 # Fetch origin and create a new clone based on origin/master.
 checkout_repo() {
-	SOURCE=$1
-        NAME=$(basename $1)
-	cd $SOURCE
+    SOURCE=$1
+    NAME=$(basename $1)
+    cd $SOURCE
 
-	# Fetch latest changes. Assumes that a git fetch will work without any
-	# SSH passphrases, so a insteadOf/pushInsteadOf alias is probably a good
-	# idea.
-	if $DO_FETCH; then
-		echo -e \\n\\nFetching latest commits in $NAME...\\n
-		git fetch --all --quiet
-	fi
+    # Fetch latest changes. Assumes that a git fetch will work without any
+    # SSH passphrases, so a insteadOf/pushInsteadOf alias is probably a good
+    # idea.
+    if $DO_FETCH; then
+	echo -e \\n\\nFetching latest commits in $NAME...\\n
+	git fetch --all --quiet
+    fi
 
-	# Checkout origin/master.  Assume that git-new-workdir is on $PATH.
-        REPO=$WORKDIR/$NAME
-	git new-workdir $SOURCE $REPO
-	cd $REPO
-	git checkout --quiet origin/master
+    # Checkout origin/master.  Assume that git-new-workdir is on $PATH.
+    REPO=$WORKDIR/$NAME
+    git new-workdir $SOURCE $REPO
+    cd $REPO
+    git checkout --quiet origin/master
 }
 
 

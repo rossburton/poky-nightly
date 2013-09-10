@@ -109,8 +109,8 @@ if $DO_SOURCES; then
 fi
 
 do_builds() {
-    MACHINES="nuc atom-pc qemux86 qemuarm"
-    TARGETS="core-image-sato"
+    MACHINES=${MACHINES:-nuc atom-pc qemux86 qemuarm}
+    TARGETS=${TARGETS:-core-image-sato}
     for MACHINE in $MACHINES; do
 	export MACHINE
 	echo -e \\n\\nBuilding $TARGETS for $MACHINE...\\n

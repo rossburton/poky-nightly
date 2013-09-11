@@ -87,6 +87,7 @@ checkout_repo() {
 
 checkout_repo $VCSROOT/poky
 checkout_repo $VCSROOT/meta-intel
+checkout_repo $VCSROOT/meta-ross
 
 # Initialise Poky
 cd $WORKDIR/poky

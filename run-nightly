@@ -87,6 +87,7 @@ checkout_repo() {
 
 checkout_repo $VCSROOT/poky
 checkout_repo $VCSROOT/meta-intel
+checkout_repo $VCSROOT/meta-minnow
 checkout_repo $VCSROOT/meta-ross
 
 # Initialise Poky
@@ -110,7 +111,7 @@ if $DO_SOURCES; then
 fi
 
 do_builds() {
-    MACHINES=${MACHINES:-nuc genericx86 qemux86 qemuarm}
+    MACHINES=${MACHINES:-nuc genericx86 minnow qemuarm}
     TARGETS=${TARGETS:-core-image-sato}
     for MACHINE in $MACHINES; do
 	export MACHINE
